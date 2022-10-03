@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 // scroll bar
 import 'simplebar/src/simplebar.css';
@@ -20,11 +21,18 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
     <StrictMode>
-        <ReduxProvider store={store}>
-            <BrowserRouter basename="/free">
-                <App />
-            </BrowserRouter>
-        </ReduxProvider>
+        <Auth0Provider
+            domain="dev-ub-vnov4.us.auth0.com"
+            clientId="JWR73qM1DXu5G3dsa5RzERp5qfsOcaLR"
+            redirectUri={window.location.origin + '/free'}
+            audience="https://customer-mgmt-api"
+        >
+            <ReduxProvider store={store}>
+                <BrowserRouter basename="/free">
+                    <App />
+                </BrowserRouter>
+            </ReduxProvider>
+        </Auth0Provider>
     </StrictMode>,
     document.getElementById('root')
 );

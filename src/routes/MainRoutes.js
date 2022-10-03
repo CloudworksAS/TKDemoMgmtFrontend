@@ -3,12 +3,16 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
+import UsersPage from 'pages/identities/UsersPage';
+import RolesPage from 'pages/identities/RolesPage';
+import RolePage from 'pages/identities/RolePage';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 
 // render - sample page
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
+const IdentitiesPage = Loadable(lazy(() => import('pages/identities/IdentitiesPage')));
 
 // render - utilities
 const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
@@ -42,6 +46,22 @@ const MainRoutes = {
         {
             path: 'sample-page',
             element: <SamplePage />
+        },
+        {
+            path: 'identities',
+            element: <IdentitiesPage />
+        },
+        {
+            path: 'users',
+            element: <UsersPage />
+        },
+        {
+            path: 'roles',
+            element: <RolesPage />
+        },
+        {
+            path: 'roles/:id',
+            element: <RolePage />
         },
         {
             path: 'shadow',

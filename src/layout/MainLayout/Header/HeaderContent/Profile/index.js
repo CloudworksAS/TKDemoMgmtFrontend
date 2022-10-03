@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -28,6 +29,7 @@ import SettingTab from './SettingTab';
 // assets
 import avatar1 from 'assets/images/users/avatar-1.png';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import Button from 'themes/overrides/Button';
 
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
@@ -54,10 +56,11 @@ function a11yProps(index) {
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 
 const Profile = () => {
+    const { logout, user, isAuthenticated, loginWithRedirect } = useAuth0();
     const theme = useTheme();
 
     const handleLogout = async () => {
-        // logout
+        logout({ returnTo: window.location.origin + '/free' });
     };
 
     const anchorRef = useRef(null);
@@ -83,24 +86,28 @@ const Profile = () => {
 
     return (
         <Box sx={{ flexShrink: 0, ml: 0.75 }}>
-            <ButtonBase
-                sx={{
-                    p: 0.25,
-                    bgcolor: open ? iconBackColorOpen : 'transparent',
-                    borderRadius: 1,
-                    '&:hover': { bgcolor: 'secondary.lighter' }
-                }}
-                aria-label="open profile"
-                ref={anchorRef}
-                aria-controls={open ? 'profile-grow' : undefined}
-                aria-haspopup="true"
-                onClick={handleToggle}
-            >
-                <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-                    <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
-                    <Typography variant="subtitle1">John Doe</Typography>
-                </Stack>
-            </ButtonBase>
+            {isAuthenticated ? (
+                <ButtonBase
+                    sx={{
+                        p: 0.25,
+                        bgcolor: open ? iconBackColorOpen : 'transparent',
+                        borderRadius: 1,
+                        '&:hover': { bgcolor: 'secondary.lighter' }
+                    }}
+                    aria-label="open profile"
+                    ref={anchorRef}
+                    aria-controls={open ? 'profile-grow' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                >
+                    <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
+                        <Avatar alt="profile user" src={user.picture} sx={{ width: 32, height: 32 }} />
+                        <Typography variant="subtitle1">{user.name}</Typography>
+                    </Stack>
+                </ButtonBase>
+            ) : (
+                <ButtonBase onClick={() => loginWithRedirect()}>Login</ButtonBase>
+            )}
             <Popper
                 placement="bottom-end"
                 open={open}
@@ -139,11 +146,11 @@ const Profile = () => {
                                             <Grid container justifyContent="space-between" alignItems="center">
                                                 <Grid item>
                                                     <Stack direction="row" spacing={1.25} alignItems="center">
-                                                        <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
+                                                        <Avatar alt="profile user" src={user.picture} sx={{ width: 32, height: 32 }} />
                                                         <Stack>
-                                                            <Typography variant="h6">John Doe</Typography>
+                                                            <Typography variant="h6">{user.name}</Typography>
                                                             <Typography variant="body2" color="textSecondary">
-                                                                UI/UX Designer
+                                                                {user.email}
                                                             </Typography>
                                                         </Stack>
                                                     </Stack>

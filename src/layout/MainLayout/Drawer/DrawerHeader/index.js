@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Stack, Chip } from '@mui/material';
+import { Stack, Chip, Typography } from '@mui/material';
 
 // project import
 import DrawerHeaderStyled from './DrawerHeaderStyled';
@@ -17,7 +17,8 @@ const DrawerHeader = ({ open }) => {
         // only available in paid version
         <DrawerHeaderStyled theme={theme} open={open}>
             <Stack direction="row" spacing={1} alignItems="center">
-                <Logo />
+                <Typography variant="h3">Total Kontroll</Typography>
+                {/* <Logo />
                 <Chip
                     label={process.env.REACT_APP_VERSION}
                     size="small"
@@ -26,7 +27,7 @@ const DrawerHeader = ({ open }) => {
                     href="https://github.com/codedthemes/mantis-free-react-admin-template"
                     target="_blank"
                     clickable
-                />
+                /> */}
             </Stack>
         </DrawerHeaderStyled>
     );
